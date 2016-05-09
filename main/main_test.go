@@ -3,86 +3,48 @@ import (
 	"testing"
 )
 
-func TestCalcDailyRepayment (t *testing.T){
+func TestCalcDaily (t *testing.T){
 	var tests = []struct {
-		initialAmt, rate, period, interest, loanRepayment, dailyRepayment float64
+		initialAmt, rate, period, interest, loanRepayment, installment float64
 	}{
-		{2000, 9, 12, 5.92, 2005.92, 167.16},
-		//{5000, 12, 20, 5032.88, 251.64},
-		//{2000.0, 9.0, 12.0, 6.0},
-		//{2000.0, 9.0, 12.0, 6.0},
+		{2000, 7, 5, 1.92, 2001.92, 400.38},
+		{5000, 12, 20, 32.88, 5032.88, 251.64},
+		{4600, 5, 15, 9.45, 4609.45, 307.30},
+		{6438, 3.2, 31, 17.50, 6455.50, 208.24},
 	}
 	for _, c := range tests {
-		calcInterest := calcDailyInterest(c.initialAmt, c.rate, c.period)
+		calcInterest, calcLoanRepayment, calcDailyRepayment := calcDaily(c.initialAmt, c.rate, c.period)
 		if calcInterest != c.interest{
 			t.Fatal("Expected", c.interest, " got", calcInterest)
 		}
-
-		calcLoanRepayment, calcDailyRepayment := calcDailyLoanRepayment(c.initialAmt, c.rate, c.period)
 		if calcLoanRepayment != c.loanRepayment{
 			t.Fatal("Expected", c.loanRepayment, " got", calcLoanRepayment)
 		}
-		if calcDailyRepayment != c.dailyRepayment{
-			t.Fatal("Expected", c.dailyRepayment, " got", calcDailyRepayment)
+		if calcDailyRepayment != c.installment{
+			t.Fatal("Expected", c.installment, " got", calcDailyRepayment)
 		}
 	}
 }
 
-//func TestDaily (t *testing.T) {
-//	var tests = []struct {
-//		s, want string
-//	}{
-//		{"Backward", "drawkcaB"},
-//		{"Hello, World", "dlroW ,olleH"},
-//		{"", ""},
-//	}
-//	for _, c := range tests {
-//		got := Reverse(c.s)
-//		if got != c.want {
-//			t.Errorf("Reverse(%q) == %q, want %q", c.s, got, c.want)
-//		}
-//	}
-//}
-
-////Testing URl - Not required
-//func Test (t *testing.T){
-//	//router := mux.NewRouter().StrictSlash(true)
-//	s := httptest.NewServer("/calcMonthly/")
-//	defer s.Close()
-//
-//	resp, err := http.Get(s.URL)
-//	if err != nil {
-//		t.Error(err)
-//	}
-//	if body, err := ioutil.ReadAll(resp.Body);err != nil {
-//		t.Error(err)
-//	} else if string(body) != ""{
-//		t.Error("Expected", "Something", "Got", body)
-//	}
-//}
-
-////Example Code
-//type App struct{
-//	Message string
-//}
-//
-//func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request){
-//	w.Write([]byte(a.Message))
-//}
-//
-//func fakeApp(msg string) *httptest.Server{
-//	app:= &App{Message:msg}
-//	return httptest.NewServer(app)
-//}
-//
-//func getBody(t *testing.T, s *httptest.Server, path string) string {
-//	resp, err := http.Get(s.URL + path)
-//	if err != nil {
-//		t.Error(err)
-//	}
-//	body, err := ioutil.ReadAll(resp.Body)
-//	if err != nil {
-//		t.Error(err)
-//	}
-//	return string(body)
-//}
+func TestCalcMonthly (t *testing.T){
+	var tests = []struct {
+		initialAmt, rate, period, interest, loanRepayment, installment float64
+	}{
+		{2000, 6, 60, 7200, 9200, 153.33},
+		{15000, 8, 12, 14400, 29400, 2450},
+		{8500, 12.5, 24, 25500, 34000, 1416.67},
+		{8924, 7.4, 18, 11886.77, 20810.77, 1156.15},
+	}
+	for _, c := range tests {
+		calcInterest, calcLoanRepayment, calcMonthRepayment := calcMonthly(c.initialAmt, c.rate, c.period)
+		if calcInterest != c.interest{
+			t.Fatal("Expected", c.interest, " got", calcInterest)
+		}
+		if calcLoanRepayment != c.loanRepayment{
+			t.Fatal("Expected", c.loanRepayment, " got", calcLoanRepayment)
+		}
+		if calcMonthRepayment != c.installment{
+			t.Fatal("Expected", c.installment, " got", calcMonthRepayment)
+		}
+	}
+}
