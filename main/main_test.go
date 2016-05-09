@@ -8,7 +8,7 @@ func TestCalcDailyRepayment (t *testing.T){
 		initialAmt, rate, period, interest, loanRepayment, dailyRepayment float64
 	}{
 		{2000, 9, 12, 5.92, 2005.92, 167.16},
-		{5000, 12, 20, 5032.88, 251.64},
+		//{5000, 12, 20, 5032.88, 251.64},
 		//{2000.0, 9.0, 12.0, 6.0},
 		//{2000.0, 9.0, 12.0, 6.0},
 	}
