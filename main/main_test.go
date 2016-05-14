@@ -13,15 +13,18 @@ func TestCalcDaily (t *testing.T){
 		{6438, 3.2, 31, 17.50, 6455.50, 208.24},
 	}
 	for _, c := range tests {
-		calcInterest, calcLoanRepayment, calcDailyRepayment := calcDaily(c.initialAmt, c.rate, c.period)
-		if calcInterest != c.interest{
-			t.Fatal("Expected", c.interest, "got", calcInterest)
+		type calculatedValues struct {
+			interest, totalLoanRepayment, dailyInstallment float64
 		}
-		if calcLoanRepayment != c.loanRepayment{
-			t.Fatal("Expected", c.loanRepayment, "got", calcLoanRepayment)
+		calculatedValues {calcDaily(c.initialAmt, c.rate, c.period)}
+		if calculatedValues.interest != c.interest{
+			t.Fatal("Expected", c.interest, "got", calculatedValues.interest)
 		}
-		if calcDailyRepayment != c.installment{
-			t.Fatal("Expected", c.installment, "got", calcDailyRepayment)
+		if calculatedValues.totalLoanRepayment != c.loanRepayment{
+			t.Fatal("Expected", c.loanRepayment, "got", calculatedValues.totalLoanRepayment)
+		}
+		if calculatedValues.dailyInstallment != c.installment{
+			t.Fatal("Expected", c.installment, "got", calculatedValues.dailyInstallment)
 		}
 	}
 }
@@ -36,15 +39,18 @@ func TestCalcMonthly (t *testing.T){
 		{8924, 7.4, 18, 11886.77, 20810.77, 1156.15},
 	}
 	for _, c := range tests {
-		calcInterest, calcLoanRepayment, calcMonthRepayment := calcMonthly(c.initialAmt, c.rate, c.period)
-		if calcInterest != c.interest{
-			t.Fatal("Expected", c.interest, "got", calcInterest)
+		type calculatedValues struct {
+			interest, totalLoanRepayment, monthlyInstallment float64
 		}
-		if calcLoanRepayment != c.loanRepayment{
-			t.Fatal("Expected", c.loanRepayment, "got", calcLoanRepayment)
+		calculatedValues{calcMonthly(c.initialAmt, c.rate, c.period)}
+		if calculatedValues.interest != c.interest{
+			t.Fatal("Expected", c.interest, "got", calculatedValues.interest)
 		}
-		if calcMonthRepayment != c.installment{
-			t.Fatal("Expected", c.installment, "got", calcMonthRepayment)
+		if calculatedValues.totalLoanRepayment != c.loanRepayment{
+			t.Fatal("Expected", c.loanRepayment, "got", calculatedValues.totalLoanRepayment)
+		}
+		if calculatedValues.monthlyInstallment!= c.installment{
+			t.Fatal("Expected", c.installment, "got", calculatedValues.monthlyInstallment)
 		}
 	}
 }

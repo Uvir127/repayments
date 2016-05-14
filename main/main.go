@@ -31,4 +31,7 @@ func Round(float float64, decimals int) (rValue float64) {
 	rValue = round/pow
 	return
 }
-
+//
+//type calculatedValues struct {
+//	interest, totalLoanRepayment, installment float64
+//}
