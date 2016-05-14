@@ -33,9 +33,6 @@ func monthly(w http.ResponseWriter, r *http.Request){
 	}
 
 	//Calls required methods to calculate loan total and installments
-	//v := new(calculatedValues)
-	//v = calcMonthly(initialAmt, rate, period)
-	//interest, totalLoanRepayment, installment := calcMonthly(initialAmt, rate, period)
 	interest := calcMonthlyInterest(initialAmt, rate, period)
 	totalLoanRepayment := calcMonthlyLoanRepayment(initialAmt, interest)
 	installment := calcMonthlyInstallment(totalLoanRepayment, period)
@@ -44,27 +41,6 @@ func monthly(w http.ResponseWriter, r *http.Request){
 	fmt.Fprintf(w, "Monthly Installment: R%.2f \n", installment)
 	fmt.Fprintf(w, "Loan Repayment: R%.2f", totalLoanRepayment)
 }
-
-//Calculations for Monthly loan repayment
-//func calcMonthly(initialAmt float64, rate float64, period float64) (v *calculatedValues){
-//	v.interest = initialAmt * (rate / 100.00) * period
-//	v.totalLoanRepayment = initialAmt + v.interest
-//	v.installment = v.totalLoanRepayment /period
-//	v.interest = Round(v.interest, 2)
-//	v.totalLoanRepayment = Round(v.totalLoanRepayment, 2)
-//	v.installment = Round(v.installment,2)
-//	return v
-//}
-
-//func calcMonthly(initialAmt float64, rate float64, period float64) (float64, float64, float64){
-//	interest := initialAmt * (rate / 100.00) * period
-//	totalLoanRepayment := initialAmt + interest
-//	installment := totalLoanRepayment /period
-//	interest = Round(interest, 2)
-//	totalLoanRepayment = Round(totalLoanRepayment, 2)
-//	installment = Round(installment,2)
-//	return interest, totalLoanRepayment, installment
-//}
 
 func calcMonthlyInterest(initialAmt float64, rate float64, period float64) float64 {
 	return Round(initialAmt * (rate / 100.00) * period, 2)
